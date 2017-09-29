@@ -1,17 +1,33 @@
 import React, { Component } from 'react';
-import { Button, Modal, Header } from 'semantic-ui-react'
+import { Button, Modal, Header, Form } from 'semantic-ui-react'
 
 class NewRecipe extends Component {
+
 	render() {
+    const { newRecipeName, newRecipeIngredients } = this.props
 
 	    return (
-          <Modal trigger={<Button>Show Modal</Button>}>
-            <Modal.Header>Select a Photo</Modal.Header>
-            <Modal.Content image>
+          <Modal trigger={<Button primary>New Recipe</Button>}>
+            <Modal.Content>
               <Modal.Description>
-                <Header>Default Profile Image</Header>
-                <p>We've found the following gravatar image associated with your e-mail address.</p>
-                <p>Is it okay to use this photo?</p>
+                <Header>New Recipe</Header>
+                  <Form onSubmit={this.props.handleSubmit}>
+                    <Form.Input
+                      label='Name' 
+                      placeholder='Recipe Name' 
+                      name='newRecipeName' 
+                      value={newRecipeName} 
+                      onChange={this.props.handleChange}
+                    />
+                    <Form.TextArea 
+                      label='Ingredients' 
+                      placeholder='Enter ingredients seperated by commas' 
+                      name='newRecipeIngredients' 
+                      value={newRecipeIngredients} 
+                      onChange={this.props.handleChange}
+                    />
+                    <Form.Button>Submit</Form.Button>
+                  </Form>
               </Modal.Description>
             </Modal.Content>
           </Modal>

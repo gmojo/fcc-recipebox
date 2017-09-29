@@ -1,4 +1,4 @@
-FreeCodeCamp: FCC Leaderboard in React
+FreeCodeCamp: Recipe Box in React
 ========================================================
 ## User stories:
 1. I can create recipes that have names and ingredients.

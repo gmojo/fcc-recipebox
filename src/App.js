@@ -1,76 +1,60 @@
 import React, { Component } from 'react';
-import './App.css';
-import { Accordion, Icon, Button, Segment } from 'semantic-ui-react'
+import { Container, Segment } from 'semantic-ui-react'
 import NewRecipe from './Components/NewRecipe'
+import RecipeSegment from './Components/RecipeSegment.js';
+import NavComponent from './Components/Navbar.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeIndex: -1,
       recipes: [
         {recipeName: 'Cake', ingredients: ['eggs', 'flour', 'sugar']},
         {recipeName: 'Tea', ingredients: ['tea bag', 'hot water', 'milk', 'sugar']}
       ],
-      showModal: false,
+      newRecipeName: '',
+      newRecipeIngredients: '',
     };
   }
 
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps
-    const { activeIndex } = this.state
-    const newIndex = activeIndex === index ? -1 : index
-
-    this.setState({ activeIndex: newIndex })
-  }
-
-  deleteRecipe(index) {
+  deleteRecipe = (index) => {
     let recipes = this.state.recipes.slice();
     recipes.splice(index, 1);
     this.setState({recipes});
   }
 
+  handleChange = (e, { name, value }) => this.setState({ [name]: value })
+
+  handleSubmit = (e) => {
+    let recipes = this.state.recipes;
+    let ingredients = this.state.newRecipeIngredients.split(',');
+    recipes.push({recipeName: this.state.newRecipeName, ingredients: ingredients})
+    this.setState({ recipes })
+    this.setState({ newRecipeName: '', newRecipeIngredients: '' })
+  }
+
   render() {
     const recipes = this.state.recipes;
-    const { activeIndex } = this.state;
 
     return (
       <div className="App">
-        <h1>FreeCodeCamp Challenge - Recipe Box</h1>
-        <div className="container">
+        <NavComponent />
+        <Container id='page'>
+          <h1>FreeCodeCamp Challenge - Recipe Box</h1>
 
-          <Accordion>
-            <Segment raised>
-              <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
-                <Icon name='dropdown' />
-                What is a dog?
-              </Accordion.Title>
-              <Accordion.Content active={activeIndex === 0}>
-                <p>There are many breeds of dogs.</p>
-                <div>
-                  <Button primary>Primary</Button>
-                  <Button secondary>Secondary</Button>
-                </div>
-              </Accordion.Content>
-            </Segment>
+              <Segment.Group>
+              {recipes.map((recipe, index) => (
+                <RecipeSegment recipe={recipe} index={index} deleteRecipe={this.deleteRecipe} />
+              ))}
+              </Segment.Group>
 
-            <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
-              <Icon name='dropdown' />
-              What kinds of dogs are there?
-            </Accordion.Title>
-
-            <Accordion.Content active={activeIndex === 1}>
-              <p>There are many breeds of dogs.</p>
-              <div>
-                <Button primary>Primary</Button>
-                <Button secondary>Secondary</Button>
-              </div>
-            </Accordion.Content>
-          </Accordion>
-
-          <NewRecipe />
-
-        </div>
+            <NewRecipe 
+              handleSubmit={this.handleSubmit} 
+              handleChange={this.handleChange} 
+              newRecipeName={this.state.newRecipeName} 
+              newRecipeIngredients={this.state.newRecipeIngredients} 
+            />
+        </Container>
       </div>
     );
   }
@@ -78,4 +62,9 @@ class App extends Component {
 
 export default App;
 
-//delteRecipe button onClick={(event)=>this.deleteRecipe(index)}
+//Next steps
+//1- close form on Modal submit
+//2 - Modal form to edit existing entries
+//3 - Fix issue with 'each child in array should have key'
+//4 - Local storage instead of state?
+//5 - Comment code and refactor as needed.

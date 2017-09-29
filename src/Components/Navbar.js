@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import '../App.css';
-import Navbar from 'react-bootstrap/lib/Navbar';
+import { Container, Menu } from 'semantic-ui-react'
 
 class NavComponent extends Component {
 
   render() {
     return (
-      <Navbar inverse collapseOnSelect>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="https://garethmoger.com/">GarethMoger.com</a>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-      </Navbar>
+
+        <Menu id="nav" fixed='top' inverted>
+          <Container>
+
+            <Menu.Item>
+              <a href='https://GarethMoger.Com/'>GarethMoger.com</a>
+            </Menu.Item>
+
+          </Container>
+        </Menu>
+
     );
   }
 }
