@@ -7,10 +7,14 @@ class NewRecipe extends Component {
     const { newRecipeName, newRecipeIngredients } = this.props
 
 	    return (
-          <Modal trigger={<Button primary>New Recipe</Button>}>
+          <Modal 
+          	trigger={<Button primary onClick={this.props.open}>New Recipe</Button>}
+          	open={this.props.modalOpen}
+          	onClose={this.props.close}
+          >
             <Modal.Content>
               <Modal.Description>
-                <Header>New Recipe</Header>
+                <Header>Recipe</Header>
                   <Form onSubmit={this.props.handleSubmit}>
                     <Form.Input
                       label='Name' 
@@ -26,7 +30,11 @@ class NewRecipe extends Component {
                       value={newRecipeIngredients} 
                       onChange={this.props.handleChange}
                     />
-                    <Form.Button>Submit</Form.Button>
+                    <Button.Group>
+	                    <Form.Button positive>Submit</Form.Button>
+	                    <Button.Or />
+	                    <Form.Button negative onClick={this.props.close}>Cancel</Form.Button>
+                    </Button.Group>
                   </Form>
               </Modal.Description>
             </Modal.Content>

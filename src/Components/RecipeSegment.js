@@ -11,43 +11,44 @@ class RecipeSegment extends Component {
 		}
 	}
 
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps
-    const { activeIndex } = this.state
-    const newIndex = activeIndex === index ? -1 : index
+	//expand and collapse accordion
+	handleClick = (e, titleProps) => {
+		const { index } = titleProps
+		const { activeIndex } = this.state
+		const newIndex = activeIndex === index ? -1 : index
 
-    this.setState({ activeIndex: newIndex })
-  }
+		this.setState({ activeIndex: newIndex })
+	}
 
-  render() {
-  	const { activeIndex } = this.state;
-  	const recipe = this.props.recipe;
-  	const index = this.props.index;
+	render() {
+		//active index defines which accordion should be expanded. -1 indicates none
+		const { activeIndex } = this.state;
+		const recipe = this.props.recipe;
+		const index = this.props.index;
 
-    return (
+		return (
 
-        <Segment raised>
-        	<Accordion>
-				<Accordion.Title active={activeIndex === index} index={index} onClick={this.handleClick}>
-					<Icon name='dropdown' />
-					{recipe.recipeName}
-				</Accordion.Title>
-				<Accordion.Content active={activeIndex === index}>
-					<Segment.Group raised>
-						{recipe.ingredients.map((item) => (
-							<Ingredient item={item} />
-						))}
-					</Segment.Group>
-					<div>
-					  <Button positive>Edit</Button>
-					  <Button negative onClick={(event)=>this.props.deleteRecipe(index)}>Delete</Button>
-					</div>
-				</Accordion.Content>
-          </Accordion>
-        </Segment>
-
-    );
-  }
+		    <Segment raised>
+		    	<Accordion>
+					<Accordion.Title active={activeIndex === index} index={index} onClick={this.handleClick}>
+						<Icon name='dropdown' />
+						{recipe.recipeName}
+					</Accordion.Title>
+					<Accordion.Content active={activeIndex === index}>
+						<Segment.Group raised>
+							{recipe.ingredients.map((item, index) => (
+								<Ingredient item={item} key={index} />
+							))}
+						</Segment.Group>
+						<Button.Group>
+						  <Button positive onClick={(event)=>this.props.editRecipe(index)}>Edit</Button>
+						  <Button negative onClick={(event)=>this.props.deleteRecipe(index)}>Delete</Button>
+						</Button.Group>
+					</Accordion.Content>
+		      </Accordion>
+		    </Segment>
+		);
+	}
 }
 
 export default RecipeSegment;
